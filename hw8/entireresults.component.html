@@ -1,0 +1,162 @@
+<meta name="viewport" content = "width-device-width, initial-scale=1.0">
+
+
+
+<div [class.d-none] = "show_progress1" class="progress" style="width:80%; margin:0 auto;">
+  <div class="progress-bar progress-bar-striped active " role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="50" style="width: 50%"></div>
+</div>
+<div [class.d-none] = "!show_progress1">
+
+
+<div *ngIf = "active_div == 'results' && showingvar" class="results_div">
+
+
+    <div *ngIf ="changeTable != undefined && changeTable.length !=0">
+        <div  class="detail-button" >
+      
+            <button class="btn btn-xs btn-light d-flex justify-content-center align-content-between" 
+            (click)="results_sliding()" [disabled]="resultsvar"> Detail 
+            <i class="material-icons md-12">keyboard_arrow_right</i>
+            </button>
+            </div>
+          
+    
+    
+  <div class="component">
+    <small>
+    <table class="table table-striped table-dark table-hover">
+  <tr>
+    <th> #</th>
+    <th>Image</th>
+    <th>Title</th>
+    <th> Price</th>
+    <th> Shipping</th>
+    <th>Zip</th>
+    <th>Seller</th>
+    <th>Wish List</th>
+  </tr>
+  <!--[class.darker]="hightlight_item == prod.itemidentifier"-->
+  <!--matTooltip="{{prod.title}}" matTooltipPosition="below"-->
+
+  <tr *ngFor = "let prod of changeTable | slice:(page-1)*pageSize:(page-1)*pageSize+pageSize">
+    <td [ngClass] = "{'highlighted': selectedObjects == prod}"> {{1+changeTable.indexOf(prod)}}</td>
+    <td [ngClass] = "{'highlighted': selectedObjects == prod}"><a href="{{prod.image}}" target="_blank"><img src="{{prod.image}}" width="110" height="120"> </a></td>
+    <td [ngClass] = "{'highlighted': selectedObjects == prod}"> <div   matTooltip="{{prod.title}}" matTooltipPosition="below"> <button class="btn btn-link btn-sm" (click) = "onHeadingClick(prod,'fromresults')">{{prod.cut_title}}</button></div></td>
+    <td [ngClass] = "{'highlighted': selectedObjects == prod}">{{prod.price}}</td>
+    <td [ngClass] = "{'highlighted': selectedObjects == prod}">{{prod.shipping}}</td>
+    <td [ngClass] = "{'highlighted': selectedObjects == prod}">{{prod.zip}}</td>
+    <td [ngClass] = "{'highlighted': selectedObjects == prod}">{{prod.seller.toUpperCase()}}</td>
+    <!-- <td><button id="wishlist-button" (click)="wish_click(prod)" class="btn btn-xs btn-light d-flex justify-content-center align-content-between"> 
+        <i *ngIf="!wish_checker(prod)"  class="material-icons md-12">add_shopping_cart</i>  
+        <i *ngIf="wish_checker(prod)" style="color:peru" class="material-icons md-12">remove_shopping_cart</i>  
+        
+    </button>
+  </td> -->
+  <td [ngClass] = "{'highlighted': selectedObjects == prod}"><button (click)="wish_click(prod)"
+    class="btn btn-light d-flex justify-content-center align-content-between">
+    <i *ngIf="!wish_checker(prod)" class="material-icons">add_shopping_cart</i>
+    <i *ngIf="wish_checker(prod)" style="color: peru" class="material-icons">remove_shopping_cart</i></button>
+</td>
+    
+      <!--{{prod.wishlist}}-->
+  
+  </tr>
+</table>
+</small>
+<br>
+<ngb-pagination class="d-flex justify-content-md-center"
+[(page)]="page"
+[(pageSize)] = "pageSize"
+[collectionSize]="changeTable.length">
+<ng-template ngbPaginationPrevious><span aria-hidden="true" class="hover-it"> &laquo;</span>Previous</ng-template>
+<ng-template ngbPaginationNext>Next<span aria-hidden="true" class="hover-it"> &raquo;</span></ng-template>
+<ng-template ngbPaginationNumber let-p>{{p}}</ng-template>
+</ngb-pagination>
+<br>
+
+  </div>
+  </div>
+  <div *ngIf = "changeTable == undefined || changeTable.length == 0">
+      <div class="alert alert-warning norecc"  >
+          No Records.
+        </div>
+  </div>
+  </div>
+  
+
+
+
+
+  <div *ngIf = "active_div == 'wishlists'">
+    <div class="results_div">
+        <div  class="detail-button" >
+      
+            <button class="btn btn-xs btn-light d-flex justify-content-center align-content-between" 
+            (click)="results_sliding()" [disabled]="wishvar"> Detail 
+            <i class="material-icons md-12">keyboard_arrow_right</i>
+            </button>
+            </div>
+            
+
+
+      <!-- <div class="detail-button" >
+    
+              <button class="btn right_align btn-xs btn-light d-flex justify-content-center align-content-between" 
+               [disabled]="true"> Detail 
+              <i class="material-icons md-12">keyboard_arrow_right</i>
+              </button>
+              </div> -->
+              <br>
+              <br>
+              
+
+  <div class="alert alert-warning" *ngIf="wisher.length==0">
+      No Records.
+  </div>
+
+
+  <div *ngIf="wisher.length!=0" class="enire_wishlist">
+      
+        
+      <small>
+          <table class="table table-dark table-striped">
+              <tr>
+                      <th> #</th>
+                      <th>Image</th>
+                      <th>Title</th>
+                      <th> Price</th>
+                      <th> Shipping</th>
+                      <th>Seller</th>
+                      <th>Wish List</th>
+                    </tr>
+              <tr *ngFor = "let prod of wisher; index as i">
+                  <td [ngClass] = "{'highlighted': selectedObjects == prod}">{{i+1}}</td>
+                  <td [ngClass] = "{'highlighted': selectedObjects == prod}" ><img src="{{prod.image}}" width="110" height="120"></td>
+                  <td [ngClass] = "{'highlighted': selectedObjects == prod}"> <div class="button_align" matTooltip="{{prod.title}}" matTooltipPosition="below"> <button class="btn btn-sm btn-link" (click)="onHeadingClick(prod,'fromwishlists')">{{prod.cut_title}}</button></div></td>
+  <td [ngClass] = "{'highlighted': selectedObjects == prod}">{{prod.price}}</td>
+  <td [ngClass] = "{'highlighted': selectedObjects == prod}">{{prod.shipping}}</td>
+  <td [ngClass] = "{'highlighted': selectedObjects == prod}">{{prod.seller.toUpperCase()}}</td>
+  <td [ngClass] = "{'highlighted': selectedObjects == prod}"><button  id="wishlist-button" (click)="wish_click(prod)" class="btn btn-light d-flex justify-content-center align-content-between"> 
+      <i *ngIf="!wish_checker(prod)"  class="material-icons md-12">add_shopping_cart</i>  
+      <i *ngIf="wish_checker(prod)" style="color:peru" class="material-icons md-12">remove_shopping_cart</i>  
+      
+  </button>
+
+    <!--{{prod.wishlist}}-->
+  </td>
+  <tr> <td style="text-align: right; font-weight:bold;" colspan="6"> Total Shipping </td>
+  <td>{{totalwishcost}}</td></tr>
+
+
+
+          
+          
+          </table>
+      </small>
+  </div>
+
+</div>
+
+  </div>
+</div>
+  

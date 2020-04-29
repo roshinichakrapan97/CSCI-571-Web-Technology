@@ -1,0 +1,314 @@
+<div *ngIf = "sing_product">
+<div [class.d-none] = "show_progress1" class="progress" style="width:100%; margin:0 auto;">
+    <div class="progress-bar progress-bar-striped active " role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="50" style="width: 50%"></div>
+  </div> 
+
+
+<div  [class.d-none] = "!show_progress1" *ngIf="product!=null"class="prod_div">
+<div class="heading">
+{{product.title}}
+</div>
+    <div class="list-button" >
+      <div class="list-stuff">
+  <button class="btn btn-xs btn-light d-flex justify-content-center align-content-between" 
+  (click)="list_sliding()" > <i class="material-icons md-12">keyboard_arrow_left</i>  List </button>
+</div>
+<div class="shopping-cart">
+  
+<input type="image"  (click)="shareFbPage()" src="http://csci571.com/hw/hw8/Images/facebook.png" width="40px;" height="37px;" style="margin-right:5px"/> 
+
+<!-- <a href = "http://csci571.com/hw/hw8/Images/facebook.png" ><input type="image"  (click)="shareFbPage()" width="40px;" height="37px;" style="margin-right:5px"/>  </a> -->
+  
+<button  id="wishlist-button" (click)="wish_click(product)" class="btn btn-xs btn-light d-flex justify-content-center align-content-between"> 
+      <i *ngIf="!wish_checker(product)"  class="material-icons md-12">add_shopping_cart</i>  
+      <i *ngIf="wish_checker(product)"  style="color:peru" class="material-icons md-12">remove_shopping_cart</i>  
+      
+  </button>  
+</div> 
+  </div>
+<br><br>
+<ng-template #content let-modal>
+  <div class="modal-header">
+    <span><b> Product Images</b></span>
+  </div>
+  <div class = "modal-body">
+    <ngb-carousel *ngIf = "sing_product.productimages">
+      <ng-template *ngFor = "let image of sing_product.productimages" ngbSlide>
+        <div style = "background-color: rgba(179,179,179,0.671)" class="text-center">
+        <a [href] = "image" target="_blank"> 
+          <img class="text-center" width="400" [src] = "image" alt = "Image">
+
+        </a>
+      </div>
+      
+
+      </ng-template>
+    </ngb-carousel>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-dark" (click) = "modal.close('Save click')">Close</button>
+      </div>
+  </div>
+</ng-template>
+ <div class="tabs-info">
+    <ngb-tabset  class="tabsclass" [justify]="justification" type="pills">
+        <ngb-tab title="Product">
+          <ng-template ngbTabContent>
+            <div class="commondiv table-responsive">
+              <small>
+            <table class="table table-striped table-dark table-condensed">
+              <tr *ngIf="sing_product.images!='N/A'">
+                <th>Product Images</th>
+                <td class="word_wrap"><button class="btn btn-sm btn-link text-left" style="margin:0px; padding:0px;" (click) = "openVerticallyCenter(content)"> View Product Images here </button></td>
+
+              </tr>
+              <tr *ngIf="sing_product.subtitle!='N/A'">
+                <th>Subtitle</th>
+                <td class="word_wrap"> {{sing_product.subtitle}}</td>
+              </tr>
+              <tr *ngIf="sing_product.price!='N/A'">
+                <th>Price</th>
+                <td class="word_wrap"> {{sing_product.price}}</td>
+              </tr>
+              <tr *ngIf="sing_product.location!='N/A'">
+                <th>Location</th>
+                <td class="word_wrap">{{sing_product.location}}</td>
+              </tr>
+              <tr *ngIf="sing_product.returnpolicy!='N/A'">
+                <th>Return Policy</th>
+                <td class="word_wrap">{{sing_product.returnpolicy}}</td>
+              </tr>
+              <tr *ngFor = "let itemspecific of sing_product.itemspecifics">
+                <th>{{itemspecific[0]}}</th>
+                <td class="word_wrap">{{itemspecific[1]}}</td>
+              </tr>
+            </table>
+          </small>
+          </div>
+          </ng-template>
+        </ngb-tab>
+        
+        <ngb-tab title="Photos">
+            <ng-template ngbTabContent>
+                <br>
+                <br>
+                <div class="alert alert-warning" *ngIf="photos.length==0" >
+                  No Records.
+                </div>
+             <div  *ngIf="photos.length!=0" class="card-columns progress-bar-animated">
+               <div *ngFor = "let item of photos">
+                 <div class="card bordered" [class.d-none]="item==''">
+                   <a href = "{{item}}" target="_blank">
+                     <img class="card-img" src="{{item}}" alt="N/A">
+
+                   </a>
+                 </div>
+               </div>
+             </div>
+            </ng-template>
+          </ngb-tab>
+          <ngb-tab title="Shipping">
+              <ng-template ngbTabContent>
+                <div class="commondiv">
+                  <small>
+                    <div class="alert alert-warning" *ngIf="sing_product.shipping_details.length==0">
+                        No Records.
+                    </div>
+                    <table class="table table-striped table-dark table-compact" *ngIf="sing_product.shipping_details.length!=0">
+                      
+                     <tr *ngFor="let prod of sing_product.shipping_details, index as ind">
+                       <th>{{prod[0]}}</th>
+                       <td class="word_wrap">
+                         <!-- <i class="material-icons md-18" [ngClass]="{'star-green': (prod[1]=='true'),'star-red':(prod[1]=='false')}">
+                           -->
+                        
+                          <span [ngClass] = "{'tick-green': (prod[1]=='true'),'cross-red':(prod[1]=='false')}">
+                         <i *ngIf = "prod[1] =='true' " class="material-icons md-18"> done</i>
+                          <i *ngIf="prod[1]=='false'" class="material-icons md-18"> close</i>
+
+                          <p *ngIf="prod[1]!='true' && prod[1]!='false' "> {{prod[1]}}</p>
+
+                        </span>
+                     
+
+                       
+                     </tr>
+                      </table>
+                    </small>
+            
+                </div>
+                </ng-template>
+            </ngb-tab>
+            <ngb-tab title="Seller">
+                <ng-template ngbTabContent>
+
+                    <div class="commondiv">
+                      <small>
+                          <div class="alert alert-warning" *ngIf="sing_product.seller_details.length==0">
+                              No Records .
+                          </div>
+
+                   
+                        <table *ngIf="sing_product.seller_details.length!=0 "class="table table-striped table-dark ">
+                          
+                        <!-- <div *ngIf="sing_product.sellerName!='N/A'"> -->
+                         <tr  *ngIf="sing_product.sellerName!='N/A'"> 
+                           <td class="word_wrap" colspan="2"style="text-align:center;font-weight:bolder">{{sing_product.sellerName | uppercase}}</td>
+                         </tr>
+                       
+                     <!--<small *ngIf="sing_product.feedbackScore!='N/A'"> -->
+                         <tr  *ngIf="sing_product.feedbackScore!='N/A'">
+                           <th> Feedback Score</th>
+                           <td class="word_wrap">{{sing_product.feedbackScore}}</td>
+                         </tr>
+                        
+               
+                          <tr  *ngIf="sing_product.popularity!='N/A'"> 
+                              <th>Popularity</th>
+                              <td class="word_wrap">
+                              <div class="text1">
+                                <div class="prog">
+                               <round-progress [color] = "'#32CD32'" [radius] = "20" [stroke] = "2" [current]="sing_product.popularity" [max]="100">
+                               
+                              </round-progress>
+                             
+                            </div>
+                            {{sing_product.popularity}}
+                          </div>
+                          </td>
+                            </tr>
+                          
+                     
+                             <tr  *ngIf="sing_product.ratingStar!='N/A'" >
+                               
+                                <th>Feedback Rating Star</th>
+                                <td class="word_wrap"><i class="material-icons md-18" [ngClass] = "{'white-star':(sing_product.ratingStar=='None'),
+                                  'yellow-star':(sing_product.ratingStar=='Yellow'|| sing_product.ratingStar=='YellowShooting'),
+                                   'turquoise-star':(sing_product.ratingStar=='Turquoise'|| sing_product.ratingStar=='TurquoiseShooting'),
+                                   'purple-star':(sing_product.ratingStar=='Purple'|| sing_product.ratingStar=='PurpleShooting'),
+                                   'red-star':(sing_product.ratingStar=='Red'|| sing_product.ratingStar=='RedShooting'),
+                                   'green-star':(sing_product.ratingStar == 'Green' || sing_product.ratingStar=='GreenShooting'),
+                                   'blue-star':(sing_product.ratingStar == 'Blue' ),
+                                   'silver-star':(sing_product.ratingStar == 'SilverShooting' )}">
+                                 
+                                        <span *ngIf = " sing_product.feedbackScore >= 10000"> stars </span>
+                                        <span *ngIf = "10000> sing_product.feedbackScore"> star_border </span>
+                                  </i>
+                                </td>
+                            
+                            </tr>
+                         
+                            
+                            <tr  *ngIf="sing_product.topRated!='N/A'">
+                              <th> Top Rated</th>
+                              <td class="word_wrap">
+                                  <!-- <span [ngClass] = "{'tick-green': (sing_product.topRated =='true'),
+                                  'cross-red':(sing_product.topRated =='false')}">
+                                      <i *ngIf = "sing_product.topRated  =='true'" class="material-icons md-18">done</i>
+                                       <i *ngIf="sing_product.topRated =='false'" class="material-icons md-18">close</i>
+                                      
+                                     </span> -->
+                                
+                                <i class="material-icons md-18" 
+                                [ngClass] = "{'tick-green':(sing_product.topRated == true),
+                                'cross-red':(sing_product.topRated == false)}">
+                              <span *ngIf="sing_product.topRated==true">done</span>
+                              <span *ngIf="sing_product.topRated==false">close</span>
+
+                              </i>
+                              </td>
+                            </tr>
+                            <tr *ngIf="sing_product.storeName!='N/A'">
+                              <th> Store Name</th>
+                              <td class="word_wrap"> {{sing_product.storeName}}</td>
+                              
+                            </tr>
+                            <tr  *ngIf="sing_product.storeURL!='N/A'">
+                              <th> Buy Product At</th>
+                              <td class="word_wrap"><a href="{{sing_product.storeURL}}" target="_blank">Store</a></td>
+                            </tr>
+  
+                            
+                          </table> 
+                        </small>
+                  
+                          </div>              
+                        </ng-template>
+              </ngb-tab>
+              <ngb-tab title={{tabtext}}>
+                  <ng-template ngbTabContent>
+                     
+                      <div class="commondiv table-responsive">
+                      <div class="alert alert-warning" *ngIf="similaritem_content.length==0">
+                        <small>
+                        No Records .
+                      </small>
+                      </div>
+                      <small>
+                      <span class="table-sizer"*ngIf="similaritem_content.length!=0">
+                          <form [formGroup] = "categorySorting">
+                              <div class="row">
+                                  <div class="col-sm-2">
+                                  <select class="form-control custom-select" formControlName="category_val" (change)="onSorting()" id="productdetails1">
+                                    <option name="default" selected value="0" > Default</option>
+                                                <option name = "Product Name" value ="1"> Product Name </option>
+                                                <option name = "Price" value ="2"> Price </option>
+                                                <option name = "Shipping Cost" value ="3"> Shipping Cost </option>
+                                                <option name = "Days Left" value="4"> Days Left </option>
+                                                </select>
+                                  </div>
+                                  <div class="col-sm-2">
+                                      <select class="form-control custom-select" formControlName="sorting_val"(change)="onSorting()"  id="productdetails2" disabled>
+                                        <option name="Ascending" selected value="1" >Ascending</option>
+                                                    <option name = "Descending" value ="-1"> Descending </option>
+                                                    </select>
+                                      </div>
+                                </div>
+                              </form>
+                              <br>
+                      <table class="table table-striped table-dark table-condensed">
+
+                      <tr *ngFor="let product of similaritem_content; index as ind" [class.d-none]="ind>4 && showmore">
+                      
+                      <td><a href="{{product.imageURL}}" target="_blank"> <img src="{{product.imageURL}}" width="120" height="120"> </a> </td>
+                      <td class="word_wrap">
+                        <a href = "{{product.viewURL}}" target="_blank">{{product.productname}}</a><br>
+                        <span class="price-green"> Price: {{product.price}}</span><br>
+                    <span class="cost-yellow">Shipping Cost: {{product.shippingcost}}</span><br>
+                  <span>Days Left: {{product.daysleft}}</span></td>
+                      </tr> 
+                  </table>
+                  <br>
+                  <div class="centeredText">
+                    <button type="button" [class.d-none] = "!showmore" (click) = "showContents()"
+                    class="btn btn-sm btn-default btn-dark">
+                    Show More
+                    </button>
+                    <button type="button" [class.d-none] = "showmore" (click) = "showContents()"
+                    class="btn btn-sm btn-default btn-dark">
+                    Show Less
+                  </button>
+                  <br>
+                  <br><br>
+                </div>
+
+
+
+              </span>
+                </small>
+                  <!-- *ngIf="ind == 4 && showcount == 5 ||ind == similaritem_content.length - 1" >
+                      <button class="btn btn-dark"(click) = "showContents()" >{{showbutton}}</button>
+                    </div>-->
+
+                  </div> 
+
+                  
+
+                    
+                  </ng-template>
+                </ngb-tab>
+                
+      </ngb-tabset>
+   
+ </div>
+</div>
+</div>
