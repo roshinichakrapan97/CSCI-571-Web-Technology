@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>A grouped pure CSS parallax demo by Keith Clark</title>
+
+<style>
+
+  /* Parallax base styles
+  --------------------------------------------- */
+
+  .parallax {
+    
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: auto;
+    perspective: 300px;
+    white-space: nowrap;
+    position:relative;
+    
+    /*width:750px;
+    margin:0 auto;*/
+    
+  }
+
+  .parallax__group {
+    /*position: relative;*/
+    height: 100vh;
+    
+    transform-style: preserve-3d;
+  }
+
+  .parallax__layer {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
+
+  .parallax__layer--fore {
+    
+    transform: translateZ(90px) scale(.7);
+    z-index: 1;
+  }
+
+  .parallax__layer--base {
+    
+    transform: translateZ(0);
+    z-index: 4;
+  }
+
+  .parallax__layer--back {
+    
+    transform: translateZ(-300px) scale(2);
+    z-index: 3;
+  }
+
+  .parallax__layer--deep {
+    
+    transform: translateZ(-600px) scale(3);
+    z-index: 2;
+  }
+
+
+
+
+
+  /* demo styles
+  --------------------------------------------- */
+
+  
+
+  
+  
+  .navbar > a {
+   
+  text-decoration: none;
+  color:white;
+  
+  display: inline-block;
+  font-size:7.5px;
+  white-space: nowrap;
+  vertical-align: middle;
+  overflow-wrap:normal;
+  
+  
+  padding : 14px;
+  line-height: 40px; 
+  font-weight: bold;
+  letter-spacing: 0.1em;
+  
+}
+.navbar {
+  width: 90%;
+  margin: 0 auto;
+  padding-top: 8px;
+}
+.snowboard {
+  text-decoration:none;
+  display: inline-block;
+  color:white;
+  float : left;
+}
+.logo {
+  display: inline-block;
+  vertical-align: top;
+}
+.logo-text{
+  color:white;
+  font-size: 20px;
+  
+  font-weight:bold;
+  letter-spacing: 4px;
+
+
+
+}
+.picture1{
+  display: block;
+  position: relative;
+  text-align: center;
+  color: white;
+  width:100%;
+  margin: 0 auto;
+
+
+}
+
+.picture2{
+  
+  height:500px;
+  width:750px;
+  margin: 0 auto;
+  
+
+}
+.heading { 
+  font-size : 50px;
+  text-align: center;
+  /*display: inline-block;*/
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  white-space: nowrap;
+  margin-top:18px;
+  vertical-align: middle;
+  color:white;
+  font-weight:bold;
+  padding-top:23px;
+  line-height: 58px;
+  
+
+
+ }
+
+ .content
+ {
+  font-size: 13px;
+  text-align:center;
+   color:white;
+   padding-bottom:3px;
+   line-height: 25px;
+   }
+ .content1{
+  font-size: 12.5px;
+  width:65%;
+  padding-top: 20px;
+  margin:auto;
+  vertical-align:middle;
+  text-align:left;
+  color:#606060;
+  padding-bottom:5px;
+  line-height: 25px;
+
+ }
+
+ .midbackground{
+  width: 750px;
+ }
+ .content2{
+  font-size: 14px;
+  text-align:center;
+   color:white;
+   padding-bottom:5px;
+   line-height: 25px;
+   position: relative;
+   top:50%;
+   left:50%;
+   transform:translate(-50%,-50%);
+   
+ }
+ .lorem{
+  position: relative;
+   top:50%;
+   left:50%;
+   transform:translate(-50%,-50%);
+   text-align: center;
+   padding-top: 200px;
+
+
+ }
+ body{
+  font-family:futura;
+
+  
+  width:750px;
+  margin: 0 auto;
+
+
+  
+  
+
+ }
+ .buttons{
+  background-color: white;
+  color:black;
+  text-decoration: none;
+  text-align: center;
+  padding: 10px 16px;
+  font-size: 8px;
+  font-weight:bolder;
+  border:none;
+
+
+   /* centre the content in the parallax layers */
+  .title {
+    text-align: center;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+
+
+
+  /* style the groups
+  --------------------------------------------- */
+  #group2 {
+    z-index: 3; /* slide under groups 1 and 3 */
+  }
+  #group2 .parallax__layer--back {
+    
+    /*background: rgb(123,210,102);
+  }
+
+  #group3 {
+    z-index: 4; /* slide over group 2 and 4 */
+  }
+  #group3 .parallax__layer--base {
+
+
+    background: rgb(153,216,101);
+  }
+
+</style>
+</head>
+
+<body>
+  <div class="parallax">
+    <div id="group2" class="parallax__group">
+      <div class="parallax__layer parallax__layer--base">
+        <div class="navbar">
+    <div class="logo">
+      <p class="logo-text"><b>SNOWBOARD CENTRAL</b></p>
+    </div>
+    
+    
+    
+    
+    <a  href="#home"> HOME </a>
+   
+    <a   href = "#about"> ABOUT </a>
+    <a  href = "#gallery"> GALLERY </a>
+    <a   href = "#journal"> JOURNAL </a>
+    <a   href = "#contact"> CONTACT </a>
+  </div>
+  <div class = "picture1">
+    <p class = "heading"> <bold> Bend the <br>Mind </bold> </p>
+    
+    <p class = "content"> James Jantz is a snowboarder living in Jackson Hole, WY <br> and riding around the world. Lorem ipsum dolor sit amet<br> consectetuer adipiscing elit nam nibh. Nunc varius facilisis <br>eros sed erat in in velit quis arcu ornare laoreet</p>
+    
+    <center><button class = "buttons"><bold> LEARN MORE </bold></button></center>
+    <br>
+    <br>
+    <center><img src="white.png" height="32" width="32" /></center>
+    
+  </div>
+        <div class="title">text on top f image bend the mind</div>
+      </div>
+      <div class="parallax__layer parallax__layer--back">
+        <img src="snow1.jpg" height="500" width="750">
+      </div>
+    </div>
+    
+    <div id="group3" class="parallax__group">
+      <div class="parallax__layer parallax__layer--fore">
+        <div class="title">Foreground Layer</div>
+      </div>
+      <div class="parallax__layer parallax__layer--base">
+        <div class="title">Base Layer</div>
+      </div>
+    </div>
+    
+  </div>
+
+
+
+
+
+</body>
+</html>
